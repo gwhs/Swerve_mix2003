@@ -6,14 +6,11 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import java.util.Optional;
-
-import org.photonvision.PhotonCamera;
-import org.photonvision.targeting.PhotonTrackedTarget;
-
 import frc.lib.logging.LoggablePose;
 import frc.robot.Constants.VisionConstants;
+import java.util.Optional;
+import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonTrackedTarget;
 
 public class VisionSubsystem extends SubsystemBase {
     private final String GLOBAL_SHUTTER_CAMERA = "Global_Shutter_Camera";
@@ -47,7 +44,7 @@ public class VisionSubsystem extends SubsystemBase {
 
         hasTargets = latestResult.hasTargets();
 
-        if(!hasTargets) return;
+        if (!hasTargets) return;
 
         currentTarget = latestResult.getBestTarget();
         fiducialId = currentTarget.getFiducialId();
@@ -59,8 +56,13 @@ public class VisionSubsystem extends SubsystemBase {
 
         if (currentTargetFieldPose.isPresent()) {
             // Swap y and x to correct for our camera's current mounting position (temp fix)
-            Transform3d correctedTransform = new Transform3d(new Translation3d(targetTransform.getY(), targetTransform.getX(), targetTransform.getZ()), new Rotation3d());
-            estimatedRobotPose = currentTargetFieldPose.get().transformBy(correctedTransform.inverse()).toPose2d();
+            Transform3d correctedTransform = new Transform3d(
+                    new Translation3d(targetTransform.getY(), targetTransform.getX(), targetTransform.getZ()),
+                    new Rotation3d());
+            estimatedRobotPose = currentTargetFieldPose
+                    .get()
+                    .transformBy(correctedTransform.inverse())
+                    .toPose2d();
 
             poseEstimateLogger.set(estimatedRobotPose);
         }
