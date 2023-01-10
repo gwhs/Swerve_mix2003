@@ -130,7 +130,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     // Put the motors in brake mode when enabled, coast mode when disabled
     new Trigger(RobotState::isEnabled).onTrue(new StartEndCommand(() -> {
       for (SwerveModule swerveModule : swerveModules) {
-        swerveModule.setNeutralMode(NeutralMode.Brake);
+        swerveModule.setNeutralMode(NeutralMode.Coast); //was brake, changed to coast for testing alignment
       }
     }, () -> {
       for (SwerveModule swerveModule : swerveModules) {

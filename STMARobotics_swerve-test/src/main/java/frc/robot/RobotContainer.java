@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DrivetrainConstants;
-import frc.robot.commands.ChaseTagCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.FieldHeadingDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
@@ -45,8 +44,8 @@ public class RobotContainer {
   private final DrivetrainSubsystem drivetrainSubsystem = new DrivetrainSubsystem();
   private final PoseEstimatorSubsystem poseEstimator = new PoseEstimatorSubsystem(photonCamera, drivetrainSubsystem);
   
-  private final ChaseTagCommand chaseTagCommand = 
-      new ChaseTagCommand(photonCamera, drivetrainSubsystem, poseEstimator::getCurrentPose);
+  //private final ChaseTagCommand chaseTagCommand = 
+      //new ChaseTagCommand(photonCamera, drivetrainSubsystem, poseEstimator::getCurrentPose);
   
   private final FieldHeadingDriveCommand fieldHeadingDriveCommand = new FieldHeadingDriveCommand(
       drivetrainSubsystem,
@@ -89,7 +88,7 @@ public class RobotContainer {
     controller.back().onTrue(Commands.runOnce(poseEstimator::resetFieldPosition, drivetrainSubsystem));
     // Start button reseeds the steer motors to fix dead wheel
     controller.start().onTrue(Commands.runOnce(drivetrainSubsystem::reseedSteerMotorOffsets, drivetrainSubsystem));
-    controller.b().whileTrue(chaseTagCommand);
+    //controller.b().whileTrue(chaseTagCommand); 
     controller.start().toggleOnTrue(fieldHeadingDriveCommand);
   }
 
