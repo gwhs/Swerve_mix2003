@@ -48,7 +48,7 @@ public final class Constants {
      */
     public static final double DRIVETRAIN_WHEELBASE_METERS = inchesToMeters(29);
 
-    public static final String CANIVORE_NAME = "canvore";
+    public static final String CANIVORE_NAME = "rio";
     // CANIVORE_NAME bus for drive train ( RealTalonFX and Cancoders )
     // use "rio" for RoboRio bus
 
