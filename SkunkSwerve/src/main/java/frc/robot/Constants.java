@@ -99,7 +99,7 @@ public final class Constants {
                 1, 2, 9, true, true, -1.22565065, false, SHARED_SWERVE_MODULE_CONFIGURATION);
 
         public static final SwerveModuleConfiguration FRONT_RIGHT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
-                3, 3, 11, true, true, 1.30388367, false, SHARED_SWERVE_MODULE_CONFIGURATION);
+                3, 4, 11, true, true, 1.30388367, false, SHARED_SWERVE_MODULE_CONFIGURATION);
 
         public static final SwerveModuleConfiguration BACK_LEFT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
                 7, 8, 12, true, true, 1.37751475, false, SHARED_SWERVE_MODULE_CONFIGURATION);
