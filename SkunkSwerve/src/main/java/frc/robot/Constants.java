@@ -75,7 +75,7 @@ public final class Constants {
         public static final double ANGULAR_RATE_LIMIT_RADIANS_SECOND_SQUARED = 10.0 * Math.PI;
         public static final double TELEOP_MINIMUM_VELOCITY_METERS_PER_SECOND = 0.10;
 
-        public static final String CAN_BUS = "canvore";
+        public static final String CAN_BUS = "rio";
         private static final SharedSwerveModuleConfiguration SHARED_SWERVE_MODULE_CONFIGURATION =
                 new SharedSwerveModuleConfiguration(
                         CAN_BUS,
