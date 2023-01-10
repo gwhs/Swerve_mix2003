@@ -101,7 +101,7 @@ public class Constants {
     // static public final int RESERVED_DO_NOT_USE = 1; // Rev Power Distribution
     // Hub
     // FIX:
-    public static final String CANIVORE_NAME = "canvore";
+    public static final String CANIVORE_NAME = "rio";
     // CANIVORE_NAME bus for drive train ( RealTalonFX and Cancoders )
     // use "rio" for RoboRio bus
     static public final int FL_WHEEL_MOTOR_CANID = 1;
