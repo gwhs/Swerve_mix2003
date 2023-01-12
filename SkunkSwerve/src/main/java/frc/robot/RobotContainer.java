@@ -93,8 +93,8 @@ public class RobotContainer {
         driveCommandChooser.setDefaultOption(
                 "Hybrid (Default to Field Relative but use robot centric when holding button)",
                 new SwerveDriveCommand(
-                        () -> -driverController.getLeftY(),
-                        () -> -driverController.getLeftX(),
+                        () -> -driverController.getLeftY()*.3,
+                        () -> -driverController.getLeftX()*.3,
                         () -> {
                             if (driverController.leftBumper().getAsBoolean()) {
                                 if (!isSnapControllerEnabled.getAndSet(true)) {

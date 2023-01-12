@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 /**
  * For a controller that looks like a playstation controller but acts like an xbox.
- * A subclass of {@link XboxController} with {@link Trigger} factories for command-based.
+ * A subclass of {@link qroller} with {@link Trigger} factories for command-based.
  *
  * @see XboxController
  */

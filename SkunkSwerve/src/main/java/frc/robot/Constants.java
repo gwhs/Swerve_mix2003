@@ -20,10 +20,10 @@ public final class Constants {
         private DriveTrainConstants() {}
 
         public static final int NUM_MODULES = 4;
-        public static final double WHEEL_DIAMETER_METERS = Units.inchesToMeters(4.0);
-        public static final double DRIVE_GEAR_REDUCTION = (50.0 / 14) * (17.0 / 27) * (45.0 / 15);
+        public static final double WHEEL_DIAMETER_METERS = .10033;
+        public static final double DRIVE_GEAR_REDUCTION = (14.0/50.0) * (27.0 / 17.0) * (45.0/15.0);
 
-        public static final double STEER_GEAR_REDUCTION = 150.0 / 7.0;
+        public static final double STEER_GEAR_REDUCTION = (50.0/14.0) * (60.0/10.0)/2 *1.2;
 
         public static final boolean INVERT_GYRO = false;
 
@@ -96,20 +96,20 @@ public final class Constants {
                         ACCEPTABLE_STEER_ERROR_RADIANS);
 
         public static final SwerveModuleConfiguration FRONT_LEFT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
-                1, 2, 9, true, true, -1.22565065, false, SHARED_SWERVE_MODULE_CONFIGURATION);
+                1, 2, 9, true , false, Math.toRadians(-155.3808), false, SHARED_SWERVE_MODULE_CONFIGURATION);
 
         public static final SwerveModuleConfiguration FRONT_RIGHT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
-                3, 4, 11, true, true, 1.30388367, false, SHARED_SWERVE_MODULE_CONFIGURATION);
+                3, 4, 11, true, false, Math.toRadians(-141.5390), false, SHARED_SWERVE_MODULE_CONFIGURATION);
 
         public static final SwerveModuleConfiguration BACK_LEFT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
-                7, 8, 12, true, true, 1.37751475, false, SHARED_SWERVE_MODULE_CONFIGURATION);
+                7, 8, 12, true, false, Math.toRadians(106.6953), false, SHARED_SWERVE_MODULE_CONFIGURATION);
 
         public static final SwerveModuleConfiguration BACK_RIGHT_MODULE_CONFIGURATION = new SwerveModuleConfiguration(
-                5, 6, 13, true, true, -2.73662173, false, SHARED_SWERVE_MODULE_CONFIGURATION);
+                5, 6, 13, true, false, Math.toRadians(-35), false, SHARED_SWERVE_MODULE_CONFIGURATION);
     }
 
     public static class AutoConstants {
-        public static final TunablePIDGains PATH_TRANSLATION_POSITION_GAINS =
+        public static final TunablePIDGains PATH_TRANSLATION_POSITION_GAINS  =
                 new TunablePIDGains("gains/pathXY", 0.5, 0.0, 0.0, MiscConstants.TUNING_MODE);
         public static final TunablePIDGains PATH_ANGULAR_POSITION_PID_GAINS =
                 new TunablePIDGains("gains/pathAngular", 1, 0.0, 0.0, MiscConstants.TUNING_MODE);
