@@ -83,7 +83,7 @@ public class RobotContainer {
         () -> poseEstimator.getCurrentPose().getRotation(),
         () -> -modifyAxis(controller.getLeftY()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND,
         () -> -modifyAxis(controller.getLeftX()) * DrivetrainConstants.MAX_VELOCITY_METERS_PER_SECOND,
-        () -> -modifyAxis(controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2));
+        () -> modifyAxis(controller.getRightX()) * DrivetrainConstants.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND / 2));
 
     // Configure the button bindings
     configureButtonBindings();
@@ -161,7 +161,7 @@ public class RobotContainer {
         // Pass through these no interior waypoints
         List.of(),
         // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 0, Rotation2d.fromDegrees(90)),
+        new Pose2d(3, 1, Rotation2d.fromDegrees(90)),
         config);
 
     return new PrintCommand("Starting auto")
