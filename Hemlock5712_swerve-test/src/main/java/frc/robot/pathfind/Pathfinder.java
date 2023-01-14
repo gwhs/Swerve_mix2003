@@ -6,14 +6,14 @@ import java.util.List;
 public class Pathfinder {
     List<Obstacle> obstacles = new ArrayList<>();
     List<Obstacle> obstaclesWithOffsets = new ArrayList<>();
-    NavigationMesh navMesh = new NavigationMesh();
-    float obstacleOffsetDistance;
+    VisGraph navMesh = new VisGraph();
+    double obstacleOffsetDistance;
 
-    public Pathfinder(float obstacleOffsetDistance) {
+    public Pathfinder(double obstacleOffsetDistance) {
         this.obstacleOffsetDistance = obstacleOffsetDistance;
     }
 
-    public Pathfinder(float obstacleOffsetDistance, List<Obstacle> obstacles) {
+    public Pathfinder(double obstacleOffsetDistance, List<Obstacle> obstacles) {
         this(obstacleOffsetDistance);
         this.obstacles = obstacles;
         obstaclesWithOffsets = obstacles.stream().map(o -> o.offset(obstacleOffsetDistance)).toList();
