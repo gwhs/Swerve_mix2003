@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.pathfind.Edge;
-import frc.robot.pathfind.NavigationMesh;
 import frc.robot.pathfind.Node;
 import frc.robot.pathfind.Obstacle;
+import frc.robot.pathfind.VisGraph;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimatorSubsystem;
 public class WPIAStar extends CommandBase {
@@ -24,7 +24,7 @@ public class WPIAStar extends CommandBase {
   private final Node finalPosition;
   private Node startPoint;
   private final List<Obstacle> obstacles;
-  private NavigationMesh AStarMap;
+  private VisGraph AStarMap;
   private TrajectoryConfig config;
             // Add kinematics to ensure max speed is actually obeyed
             
@@ -32,7 +32,7 @@ public class WPIAStar extends CommandBase {
 
 
 
-  public WPIAStar(DrivetrainSubsystem d, PoseEstimatorSubsystem p, TrajectoryConfig config, Node finalPosition, List<Obstacle> obstacles, NavigationMesh AStarMap) {
+  public WPIAStar(DrivetrainSubsystem d, PoseEstimatorSubsystem p, TrajectoryConfig config, Node finalPosition, List<Obstacle> obstacles, VisGraph AStarMap) {
     this.driveSystem = d;
     this.poseEstimatorSystem = p;
     this.config = config.setKinematics(DrivetrainConstants.KINEMATICS);
@@ -49,6 +49,7 @@ public class WPIAStar extends CommandBase {
   @Override
   public void initialize() 
   {
+    config.setStartVelocity(Math.hypot(driveSystem.getChassisSpeeds().vxMetersPerSecond,driveSystem.getChassisSpeeds().vxMetersPerSecond));
     List<Node> fullPath = new ArrayList<Node>();
     startPoint = new Node(poseEstimatorSystem.getCurrentPose().getX(), poseEstimatorSystem.getCurrentPose().getY(), poseEstimatorSystem.getCurrentPose().getRotation()); 
     AStarMap.addNode(startPoint);

@@ -6,36 +6,28 @@ package frc.robot;
 
 import static frc.robot.Constants.TeleopDriveConstants.DEADBAND;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
 
-import com.pathplanner.lib.PathConstraints;
-
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.DrivetrainConstants;
 import frc.robot.commands.ChaseTagCommand;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.commands.FieldHeadingDriveCommand;
-import frc.robot.commands.PPAStar;
 import frc.robot.commands.WPIAStar;
-import frc.robot.pathfind.NavigationMesh;
+import frc.robot.commands.autonomous.TestAutonomous;
+import frc.robot.pathfind.Edge;
 import frc.robot.pathfind.Node;
 import frc.robot.pathfind.Obstacle;
+import frc.robot.pathfind.VisGraph;
 import frc.robot.subsystems.DrivetrainSubsystem;
 import frc.robot.subsystems.PoseEstimatorSubsystem;
 /**
@@ -60,10 +52,10 @@ public class RobotContainer {
   private final ChaseTagCommand chaseTagCommand = new ChaseTagCommand(photonCamera, drivetrainSubsystem,
       poseEstimator::getCurrentPose);
 
-  NavigationMesh AStarMap = new NavigationMesh();
-  List< Obstacle > obstacles = new ArrayList < > ();
-  final Node finalNode = new Node(1, 4, Rotation2d.fromDegrees(180));
-    
+  VisGraph AStarMap = new VisGraph();
+  final Node finalNode = new Node(4, 4, Rotation2d.fromDegrees(180));
+  //final List<Obstacle> obstacles = new ArrayList<Obstacle>();
+  final List<Obstacle> obstacles = Constants.FieldConstants.obstacles;
 
   private final FieldHeadingDriveCommand fieldHeadingDriveCommand = new FieldHeadingDriveCommand(
       drivetrainSubsystem,
@@ -89,10 +81,26 @@ public class RobotContainer {
     configureButtonBindings();
     configureDashboard();
 
+    AStarMap.addNode(finalNode);
     //SetUp AStar Map
-    Obstacle o = new Obstacle(new float[] { 0, 0, 4, 4}, new float[] {0, 4, 4, 0}, 4);
-    Obstacle offset = o.offset(0.5f);
-    offset.addNodes(AStarMap);
+    
+    for(int i = 0; i<obstacles.size(); i++){
+      System.out.println(obstacles.get(i));
+      Constants.FieldConstants.obstacles.get(i).offset(0.5).addNodes(AStarMap);
+    }
+
+    for(int i = 0; i<AStarMap.getNodeSize();i++){
+      Node startNode = AStarMap.getNode(i);
+      System.out.println(""+startNode.getX()+","+startNode.getY());
+      for(int j = i+1; j<AStarMap.getNodeSize(); j++){
+        AStarMap.addEdge(new Edge(startNode, AStarMap.getNode(j)), obstacles);
+      }
+    }
+
+    
+    //Obstacle o = new Obstacle(new double[]{ 0, 0, 4, 4}, new double[] {0, 4, 4, 0});
+    //Obstacle offset = o.offset(0.5f);
+    //offset.addNodes(AStarMap);
 
 
   }
@@ -136,9 +144,9 @@ public class RobotContainer {
     // drivetrainSubsystem.getGyroscopeRotation(), Rotation2d.fromDegrees(270)),
     // new PathPoint(new Translation2d(Units.inchesToMeters(200), 2.03),
     // drivetrainSubsystem.getGyroscopeRotation(), Rotation2d.fromDegrees(270))));
-    controller.x().
-        whileTrue(new PPAStar(drivetrainSubsystem, poseEstimator, 
-            new PathConstraints(2, 2), finalNode, obstacles, AStarMap));
+    // controller.x().
+    //     whileTrue(new PPAStar(drivetrainSubsystem, poseEstimator, 
+    //         new PathConstraints(2, 2), finalNode, obstacles, AStarMap));
   }
 
   /**
@@ -147,29 +155,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // Create config for trajectory
-    TrajectoryConfig config = new TrajectoryConfig(
-        1,
-        1)
-            // Add kinematics to ensure max speed is actually obeyed
-            .setKinematics(DrivetrainConstants.KINEMATICS);
-
-    // An example trajectory to follow. All units in meters.
-    Trajectory exampleTrajectory = TrajectoryGenerator.generateTrajectory(
-        // Start at the origin facing the +X direction
-        new Pose2d(0, 0, new Rotation2d(0)),
-        // Pass through these no interior waypoints
-        List.of(),
-        // End 3 meters straight ahead of where we started, facing forward
-        new Pose2d(3, 1, Rotation2d.fromDegrees(90)),
-        config);
-
-    return new PrintCommand("Starting auto")
-        .andThen(new InstantCommand(
-            () -> poseEstimator.setCurrentPose(new Pose2d(0, 0, new Rotation2d(0))), drivetrainSubsystem))
-        .andThen(drivetrainSubsystem.createCommandForTrajectory(exampleTrajectory, poseEstimator::getCurrentPose))
-        .andThen(new RunCommand(drivetrainSubsystem::stop, drivetrainSubsystem))
-        .andThen(new PrintCommand("Done with auto"));
+   return new TestAutonomous(drivetrainSubsystem, poseEstimator);
   }
 
   private static double modifyAxis(double value) {
